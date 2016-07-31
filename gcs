@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+# Shortcut to git clone ssh://
+
+if [ $# -ne 1 ]; then
+	echo "illegal number of parameters"
+	exit 1
+fi
+
+git clone --recursive "ssh://git@github.com/$1"
+
