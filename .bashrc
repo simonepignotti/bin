@@ -5,7 +5,7 @@ source $HOME/bin/.bash_aliases
 # nvim as default editor for git
 export VISUAL=nvim
 export EDITOR="$VISUAL"
-export TERM=screen-256color
+export TERM="screen-256color"
 
 # default languages
 export LC_ALL=en_US.UTF-8
