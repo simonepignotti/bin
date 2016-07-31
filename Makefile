@@ -1,31 +1,33 @@
 .PHONY: all
 
-all: .terminal .nvim .tmux
+all: .make.nvim .make.tmux .make.bash
 
-.terminal:
+.make.terminal:
 	curl -fLo ~/.local/share/fonts/anonymous_pro_powerline.ttf --create-dirs \
 		https://github.com/powerline/fonts/raw/master/AnonymousPro/Anonymice%20Powerline.ttf
 	fc-cache
 	./gnterm_profiler.sh
-	touch .terminal
+	touch $@
 
-.brew:
+.make.brew:
 	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install)"
-	touch .brew
+	touch $@
 
-.nvim: .brew
+.make.nvim: .make.brew
 	brew install neovim/neovim/neovim
 	curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	curl -fLo ~/.config/nvim/colors/molokai.vim --create-dirs \
-		https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim
-	ln -sf $(CURDIR)/nvim.conf ~/.config/nvim/init.vim
+	curl -fLo ~/.config/nvim/colors/monokai.vim --create-dirs \
+		https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
+	ln -sf $(HOME)/bin/.nvim.conf $(HOME)/.config/nvim/init.vim
 	nvim +PlugInstall
-	touch .nvim
+	touch $@
 
-.tmux: .brew
+.make.tmux: .make.brew
 	brew install tmux
-	mkdir -p ~/.config/tmux/
-	ln -sf $(CURDIR)/tmux.conf ~/.config/tmux/.tmux.conf
-	tmux source-file ~/.config/tmux/.tmux.conf
-	touch .tmux
+	ln -sf $(HOME)/bin/.tmux.conf $(HOME)/.tmux.conf
+	touch $@
+
+.make.bash:
+	echo "source $$HOME/bin/.bashrc" >> $(HOME)/.bashrc
+	touch $@
