@@ -11,6 +11,6 @@ export TERM="screen-256color"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-export PATH="$PATH:$HOME/bin:$HOME/.linuxbrew/bin:$HOME/anaconda3/bin"
-export MANPATH="$MANPATH:$HOME/.linuxbrew/share/man"
-export INFOPATH="$INFOPATH:$HOME/.linuxbrew/share/info"
+export PATH="$HOME/bin:$HOME/.linuxbrew/bin:$PATH:$HOME/anaconda3/bin"
+export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
