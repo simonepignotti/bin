@@ -15,17 +15,19 @@ all: .make.nvim .make.tmux .make.bash
 
 .make.nvim: .make.brew
 	brew install neovim/neovim/neovim
-	curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+	$(HOME)/.linuxbrew/bin/pip install neovim 
+	curl -fLo $(HOME)/.config/nvim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	curl -fLo ~/.config/nvim/colors/monokai.vim --create-dirs \
+	curl -fLo $(HOME)/.config/nvim/colors/monokai.vim --create-dirs \
 		https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
 	ln -sf $(HOME)/bin/.nvim.conf $(HOME)/.config/nvim/init.vim
-	nvim +PlugInstall
+	nvim +PlugInstall &
 	touch $@
 
 .make.tmux: .make.brew
 	brew install tmux
 	ln -sf $(HOME)/bin/.tmux.conf $(HOME)/.tmux.conf
+	tmux &
 	touch $@
 
 .make.bash:
