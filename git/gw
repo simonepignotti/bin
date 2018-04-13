@@ -96,28 +96,27 @@ fi
 
 case "$what" in
 	master)
-		open "$http"
+		xdg-open "$http"
 		;;
 	pullreq)
-		open "$http/pulls"
+		xdg-open "$http/pulls"
 		;;
 	issues)
-		open "$http/issues"
+		xdg-open "$http/issues"
 		;;
 	branch)
-		open "$http/tree/$branch/$rel"
+		xdg-open "$http/tree/$branch/$rel"
 		;;
 	directory)
-		open "$http/tree/master/$rel"
+		xdg-open "$http/tree/master/$rel"
 		;;
 	author)
-		open "https://github.com/$author"
+		xdg-open "https://github.com/$author"
 		;;
 	travis)
-		open "https://travis-ci.org/$repo"
+		xdg-open "https://travis-ci.org/$repo"
 		;;
 	commit)
-		open "$http/tree/$commit/$rel"
+		xdg-open "$http/tree/$commit/$rel"
 		;;
 esac
-

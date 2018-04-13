@@ -3,9 +3,8 @@
 _BIN_DIR="$HOME/bin"
 
 source ${_BIN_DIR}/bash-sensible/sensible.bash
-source $HOME/bin/.bash_aliases
 
-# prepend
+# prepend path & source
 for d in \
 	"${_BIN_DIR}" \
 	"${_BIN_DIR}/tabulator/bin" \
@@ -24,7 +23,6 @@ for d in \
 		fi
 	fi
 done
-
 
 # nvim as default editor for git
 export VISUAL=nvim
