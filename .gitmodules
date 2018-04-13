@@ -1,3 +1,6 @@
 [submodule "bash-sensible"]
 	path = bash-sensible
 	url = https://github.com/mrzool/bash-sensible
+[submodule "karel"]
+	path = karel
+	url = https://github.com/karel-brinda/bin
