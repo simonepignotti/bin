@@ -1,0 +1,6 @@
+#! /usr/bin/env bash
+
+set -e -o pipefail
+
+set -x
+git show $@ || git show HEAD~$@

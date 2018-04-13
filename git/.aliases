@@ -1,0 +1,60 @@
+#! /usr/bin/env bash
+
+alias g='git'
+
+alias ggg='git grep'
+
+alias ga='git add'
+alias g.a='git add .'
+
+alias gb='git branch'
+alias gba='git branch --all'
+
+alias gc='git checkout'
+alias gc*='git checkout "*"'
+alias gcb='git checkout -b'
+
+alias gs='git status'
+alias g.s='git status .'
+
+alias gt='git commit'
+function gtm {
+	command="git commit -m '$@'"
+	echo "$command"
+	eval $command
+    git push
+}
+alias gta='git commit --amend'
+
+alias gr='git reset'
+alias gr*='git reset "*"'
+
+alias gf='git diff --cached --ignore-space-at-eol'
+alias gff='git diff --ignore-space-at-eol'
+alias gfH='git diff HEAD --ignore-space-at-eol'
+
+alias gwff='git wdiff --ignore-space-at-eol'
+alias gwfH='git wdiff HEAD --ignore-space-at-eol'
+alias gwf='git wdiff --cached --ignore-space-at-eol'
+
+alias gfo='git fetch origin -v'
+
+alias gpull='git pull --rebase --all'
+alias gpush='git push'
+alias gp='git pull && git push'
+
+alias g{='git stash -u'
+alias g}='git stash pop'
+
+alias gindex-='git update-index --assume-unchanged'
+alias gindex+='git update-index --no-assume-unchanged'
+alias gm='git merge'
+alias gcl.='gcl'
+alias gl='git log'
+
+alias gur='git_update_repos'
+
+alias gitignore='touch .gitignore && vim .gitignore'
+alias gi='gitignore'
+
+alias cgs='gcs'

@@ -1,0 +1,26 @@
+#! /usr/bin/env bash
+
+# open readme (try various common names); if none found, create readme.md
+
+set -e
+set -o pipefail
+set -u
+#set -f
+
+readonly PROGNAME=$(basename $0)
+readonly PROGDIR=$(dirname $0)
+readonly -a ARGS=("$@")
+readonly NARGS="$#"
+
+
+for x in README.md readme.md README.rst readme.rst README.txt readme.txt README readme; do
+	if [[ -f "$x" ]]; then
+		vim  "$x"
+		exit 0;
+	fi
+done
+
+touch readme.md
+vim readme.md
+exit 0
+

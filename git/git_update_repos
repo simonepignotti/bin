@@ -1,0 +1,48 @@
+#! /usr/bin/env bash
+
+set -e
+set -o pipefail
+
+readonly PROGDIR=$(dirname $0)
+readonly PROGNAME=$(basename $0)
+
+. ${PROGDIR}/../colors.sh
+
+case "$#" in
+	0)
+		td="$HOME/git"
+		;;
+	1)
+		td="$1"
+		;;
+	*)
+		echo "update all github repositories in the specified directory"
+		echo "usage: $PROGNAME [directory]"
+		exit 1
+		;;
+esac
+
+git_dir () {
+	local s="$1"
+	for d in $(ls "$s");
+	do
+		if [[ -L "$d" ]]; then
+			# symbolic link
+			true
+		else
+			nd="$s/$d"
+
+			if [[ -d "$nd/.git" ]]; then
+				orig=$(cd "$nd" && git remote -v | grep origin | awk '{print $2}' | uniq)
+				echo -e "Updating git repository $GREEN$p$NC ($orig)"
+				((cd "$nd" && git pull --rebase --all || git pull --all) | grep -v "^Fetching" | grep -v "^Already") || echo "Error"
+			else
+				#echo "not a git repo; going to iterate though its subdirs"
+				git_dir "$nd"
+			fi
+		fi
+
+	done
+}
+
+git_dir "$td"

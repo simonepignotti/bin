@@ -1,0 +1,123 @@
+#! /usr/bin/env bash
+
+set -e -o pipefail
+
+# todo: add support for bitbucket
+
+what=master
+
+usage() {
+    cat <<EOM
+usage: $(basename $0)  open the current Github repository
+       -h     print help
+       -c     open current commit
+       -b     open current branch
+       -d     open current directory in master
+       -i     open issues
+       -p     open pull requests
+       -a     open webpage of the author
+       -t     open Travis
+       -D     print debugging messages
+EOM
+}
+
+debug=0
+
+while getopts "bchdatipD" opt; do
+	case $opt in
+	i)
+		what=issues
+		;;
+	p)
+		what=pullreq
+		;;
+	b)
+		what=branch
+		;;
+	c)
+		what=commit
+		;;
+	t)
+		what=travis
+		;;
+	d)
+		what=directory
+		;;
+	a)
+		what=author
+		;;
+	h)
+		usage
+		exit 0
+		;;
+	D)
+		debug=1
+		;;
+	\?)
+		echo "Invalid option: -$OPTARG" >&2
+		usage
+		exit 1
+		;;
+	esac
+done
+
+# is it a git repo?
+git status > /dev/null 2> /dev/null || open "http://github.com"
+git status > /dev/null 2> /dev/null || exit 0
+
+# get info about current repo and state
+url=$(git remote -v | grep fetch | awk '{print $2}')
+http=$(echo "$url" | sed 's/^git/http/g' | sed 's/ssh:\/\/[a-z]*\@/http:\/\//g' | sed 's/^https?/https/g' | sed 's/\.git$//g')
+repo=$(echo "$http" | sed 's/.*github\.com\///g')
+author=$(echo "$repo" | sed 's@/.*@@g')
+branch=$(git branch | grep "*" | awk '{print $2}')
+commit=$(git rev-parse HEAD)
+p=$(pwd -P)
+toplevel=$(git rev-parse --show-toplevel)
+rel=$(echo "$p" | sed "s@^$toplevel@@g" | sed 's@^/@@g')
+
+#if [[ $branch =~ ^\( && "$what" != "master" ]]; then
+if [[ $branch =~ ^\( ]]; then
+	what=commit
+fi
+
+if [[ $debug -eq 1 ]]; then
+	echo "Repo URL:         $url"
+	echo "HTTP address:     $http"
+	echo "Repo:             $repo"
+	echo "Author:           $author"
+	echo "Current branch:   $branch"
+	echo "Commit:           $commit"
+	echo "Git toplelevel:   $toplevel"
+	echo "Rel path:         $rel"
+	exit 0
+fi
+
+
+case "$what" in
+	master)
+		open "$http"
+		;;
+	pullreq)
+		open "$http/pulls"
+		;;
+	issues)
+		open "$http/issues"
+		;;
+	branch)
+		open "$http/tree/$branch/$rel"
+		;;
+	directory)
+		open "$http/tree/master/$rel"
+		;;
+	author)
+		open "https://github.com/$author"
+		;;
+	travis)
+		open "https://travis-ci.org/$repo"
+		;;
+	commit)
+		open "$http/tree/$commit/$rel"
+		;;
+esac
+

@@ -1,0 +1,52 @@
+#! /usr/bin/env bash
+
+#set -x
+set -o pipefail
+
+if [ $# -ne 1 ] && [ $# -ne 0 ]; then
+	s=`basename $0`
+	echo "usage: $s [dir]"
+	exit 1
+fi
+
+(
+if [ $# -eq 0 ]; then
+	cd ~/github
+	echo "#! /usr/bin/env bash"
+else
+	cd "$1"
+fi
+
+for d in `ls -d */ 2>/dev/null || echo ""`; 
+do
+	(
+	p_up=`pwd`
+	p_home=$(cd ~ && echo `pwd`)
+
+
+	# dir/ => dir; otherwise test on link does not work
+	d=${d%/}
+	if [ -L $d ]; then
+		symlink_file=$p_up/$d
+		symlink_file_rel_home=`realpath --no-symlinks --relative-to=${p_home} $symlink_file`
+
+		r=`readlink $d`
+		p_rel=`realpath --relative-to=${p_home} $p_up`
+		echo "mkdir -p $p_rel && ln -s $r $symlink_file_rel_home"
+	else
+		cd "$d"
+		p=`pwd`
+
+
+		if [ -d ".git" ]; then
+			p_rel=`realpath --relative-to=${p_home} $p`
+ 			repo=`git remote -v | grep fetch | grep origin | awk '{print $2;}'`
+ 			echo "mkdir -p $p_rel && git clone --recursive $repo $p_rel"
+		else
+			#echo "not a git repo; going to iterate though its subdirs"
+			$0 ./
+		fi
+	fi
+	)
+done;
+)

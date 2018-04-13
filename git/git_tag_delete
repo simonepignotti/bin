@@ -1,0 +1,18 @@
+#! /usr/bin/env bash
+
+set -e -o pipefail
+
+case "$#" in
+	1)
+		tag="$1"
+		;;
+	*)
+		s=`basename $0`
+		echo "delete remote and local tag"
+		echo "usage: $s tag"
+		exit 1
+		;;
+esac
+
+git tag -d $tag
+git push origin :refs/tags/$tag

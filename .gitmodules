@@ -4,3 +4,6 @@
 [submodule "karel"]
 	path = karel
 	url = https://github.com/karel-brinda/bin
+[submodule "tabulator"]
+	path = tabulator
+	url = https://github.com/stefan-schroedl/tabulator

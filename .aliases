@@ -1,5 +1,6 @@
 # cd
 
+alias open='xdg-open'
 alias cd-='cd -'
 alias cd..='cd ..'
 alias cd...='cd ../..'
@@ -29,18 +30,3 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias c='clear'
-
-# git
-
-alias ga='git add'
-alias gb='git branch'
-alias gc='git checkout'
-alias gba='git branch --all'
-alias gs='git status'
-alias gt='git commit'
-alias gf='git diff --cached'
-alias gpull='git pull --rebase'
-alias gpush='git push'
-alias gm='git mv'
-alias gcl='git clean -fxd'
-alias gl='git log'

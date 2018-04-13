@@ -1,0 +1,24 @@
+#! /usr/bin/env bash
+# Shortcut to git clone ssh://
+#
+# examples:
+#    gcs https://github.com/lh3/bwa
+#    gcs lh3/bwa
+#    gcs https://github.com/lh3/bwa/blob/master/bntseq.c
+#    gcs https://github.com/lh3/bwa/tree/Apache2
+
+for x in $@; do
+	x=$(echo "$x" | perl -pe 's@^http://@@g')
+	x=$(echo "$x" | perl -pe 's@^https://@@g')
+	x=$(echo "$x" | perl -pe 's@^git://@@g')
+	x=$(echo "$x" | perl -pe 's@github.com@@g')
+	echo $x
+	x=$(echo "$x" | perl -pe 's@^/@@g')
+	echo $x
+	x=$(echo "$x" | perl -pe 's@([^/]*)/([^/]*)(/.*)+@\1/\2@g')
+	echo $x
+
+	echo "Github repository: $x"
+	git clone --recursive "ssh://git@github.com/$x"
+done;
+
