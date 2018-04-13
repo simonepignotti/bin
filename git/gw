@@ -67,7 +67,7 @@ git status > /dev/null 2> /dev/null || exit 0
 
 # get info about current repo and state
 url=$(git remote -v | grep fetch | awk '{print $2}')
-http=$(echo "$url" | sed 's/^git/http/g' | sed 's/ssh:\/\/[a-z]*\@/http:\/\//g' | sed 's/^https?/https/g' | sed 's/\.git$//g')
+http=$(echo "$url" | sed 's/^git@github.com:/https:\/\/github.com\//g' | sed 's/ssh:\/\/[a-z]*\@/https:\/\//g' | sed 's/^https?/https/g' | sed 's/\.git$//g')
 repo=$(echo "$http" | sed 's/.*github\.com\///g')
 author=$(echo "$repo" | sed 's@/.*@@g')
 branch=$(git branch | grep "*" | awk '{print $2}')
